@@ -42,7 +42,7 @@ verify_priority=@(x)(isnumeric(x) && x<=2  && x>= -2 && round(x) == x);
 default_apifile_loc =  [prefdir '/prowlapifile.xml'];
 %%%%%%%%%%%%parse inputs
 p=inputParser;
-p.addOptional('event','Computation finished');
+p.addOptional('event','Computation finished',@(x)(isstr(x)));
 p.addParameter('priority',0,verify_priority);
 p.addParameter('application',application_string);
 %other parameters are 'url [512]', 'event [1024]' and 'description [10000]'
@@ -50,7 +50,7 @@ p.addParameter('url','');
 %p.addParameter('event','');
 p.addParameter('description','');
 p.addParameter('APIFile', default_apifile_loc);
-p.parse(varargin);
+p.parse(varargin{:}); %guess what happens if you don't include the {:} ?
 %fix the holes in inputParser. an optional first argument isn't actually
 %optional.
 eventname = p.Results.event;
